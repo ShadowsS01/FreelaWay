@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'autenticacao/css/cadastro.css' %}">
+{% endblock %}
+
+{% block 'title' %}
+Logar | FreelaWay
+{% endblock %}
+
+{% block 'body' %}
+<div class="max-w-[620px] m-auto my-[100px] p-8 rounded-lg dark:bg-zinc-900 transition-colors duration-150 
+shadow-2xl shadow-black/50 dark:shadow-blue-600/30">
+    <form action="{% url 'logar' %}" method="post">{% csrf_token %}
+        <h1 class="titulo font-degrade borda-bottom-degrade">LOGAR</h1>
+        <br>
+        <div class="flex flex-col mt-4">
+            <span class="span-descricao">Nome de usuário:</span>
+            <input type="text" name="username"
+                class="form-control mt-3 dark:bg-zinc-900 dark:text-white/80 rounded-lg border-black/30 hover:border-black/50 dark:border-white/20 dark:hover:border-white/40 focus:border-blue-600 dark:focus:border-blue-600 focus:ring focus:ring-blue-600/50 dark:focus:ring-blue-600/40 focus:caret-blue-600 transition duration-300">
+        </div>
+        <br>
+        <div class="flex flex-col">
+            <span class="span-descricao">Senha:</span>
+            <input type="password" name="password"
+                class="form-control mt-3 dark:bg-zinc-900 dark:text-white/80 rounded-lg border-black/30 hover:border-black/50 dark:border-white/20 dark:hover:border-white/40 focus:border-blue-600 dark:focus:border-blue-600 focus:ring focus:ring-blue-600/50 dark:focus:ring-blue-600/40 focus:caret-blue-600 transition duration-300">
+        </div>
+        <div class="py-2">
+            <a href="{% url 'password_reset' %}" class="text-blue-600 hover:underline">
+                Esqueci minha senha
+            </a>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="font-medium mb-3 px-3 py-3 rounded-md {{message.tags}}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <input type="submit" value="LOGAR" class="btn btn-success btn-lg text-green-600">
+        <a href="{% url 'cadastro' %}" class="btn btn-primary btn-lg">CADASTRO</a>
+    </form>
+
+</div>
+{% endblock %}

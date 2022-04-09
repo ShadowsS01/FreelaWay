@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'jobs/css/encontrar_jobs.css' %}">
+<link rel="stylesheet" href="{% static 'jobs/css/perfil.css' %}">
+{% endblock %}
+
+{% block 'title' %}
+Perfil - {{user.username}} | FreelaWay
+{% endblock %}
+
+{% block 'body' %}
+<br>
+<br>
+<div class="container -my-[50px]">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="font-medium mb-3 px-3 py-3 rounded-md {{message.tags}}">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div style="width: 60%">
+        <form action="{% url 'perfil' %}" method="POST">{% csrf_token %}
+            <p>Username:</p>
+            <input type="text" class="form-control" value="{{user.username}}" name="username">
+            <br>
+            <p>Email:</p>
+            <input type="email" class="form-control" value="{{user.email}}" name="email">
+            <br>
+            <p>Primeiro nome:</p>
+            <input type="text" class="form-control" value="{{user.first_name}}" name="primeiro_nome">
+            <br>
+            <p>Último nome:</p>
+            <input type="text" class="form-control" value="{{user.last_name}}" name="ultimo_nome">
+            <br>
+            <input type="submit" class="btn btn-success btn-lg text-green-600" value="Salvar alterações">
+            <a href="{% url 'password_reset' %}" class="btn btn-primary btn-lg">Redefinir senha</a>
+        </form>
+    </div>
+    <br>
+    <hr class="borda-degrade">
+    <br>
+    <h4 class="titulo">Histórico</h4>
+
+    <table class="table table-striped dark:text-white dark:bg-black/50">
+        <thead>
+            <tr>
+                <th scope="col">Imagem</th>
+                <th scope="col">Título</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <th scope="row"><img width="100px" src="{{job.referencias.all.0}}"></th>
+                <td>{{job.titulo}}</td>
+                <td>
+                    {% if job.categoria == 'D'%}
+                    Design
+                    {% else %}
+                    Edição de vídeo
+                    {% endif%}
+                </td>
+                <td>{{job.descricao}}</td>
+                <td>
+                    {% if job.status == 'AA'%}
+                    <span class="badge badge-info">Aguardando aprovação</span>
+                    {% elif job.status == 'C' %}
+                    <button class="badge badge-primary" data-toggle="modal" data-target="#modal-job-{{job.id}}">Em
+                        criação</button>
+                    {% else %}
+                    <span class="badge badge-success">Finalizado</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% for job in jobs %}
+    {% if job.status == "C"%}
+    <div class="modal fade font-medium" id="modal-job-{{job.id}}" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content dark:bg-zinc-900">
+                <div class="modal-header">
+                    <h5 style="font-size: 30px" class="modal-title titulo" id="exampleModalLabel">JOB:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h4 class="titulo-job">{{job.titulo}}</h4>
+                    </div>
+                    <div class="mb-3 space-y-2">
+                        <h6 class="titulo-body">Status:</h6>
+                        {% if job.status == 'AA'%}
+                        <span class="badge badge-info">Aguardando aprovação</span>
+                        {% elif job.status == 'C' %}
+                        <a class="badge badge-primary">Em criação</a>
+
+                        {% else %}
+                        <span class="badge badge-success">Finalizado</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-2">
+                        <h6 class="titulo-body">Prazo máximo para entrega:</h6>
+                        <p>{{job.prazo_entrega}}</p>
+                    </div>
+
+                    <hr class="border-yellow-600 mb-2">
+                    <form action="{% url 'enviar_projeto' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+                        <label for="single" class="px-3 sm:px-5 py-2 rounded-lg font-medium text-black bg-blue-300/50 
+                        hover:bg-blue-300 dark:text-white/75 dark:hover:text-white dark:bg-black/50 dark:hover:bg-black 
+                        selection:bg-blue-700/20 dark:selection:bg-blue-600/10 selection:text-blue-900 
+                        dark:selection:text-blue-600 duration-700 cursor-pointer border-blue-900/30 hover:border-blue-900">
+                            Enviar arquivo final
+                        </label>
+                        <input type="file" class="form-control hidden" style="position: absolute;"
+                            placeholder="Enviar arquivos" name="file" id="single">
+
+                        <input type="hidden" name="id" value={{job.id}}>
+                        <br>
+                        <input type="submit" value="Enviar" class="btn btn-success btn-lg mt-2 text-green-600">
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+</div>
+
+{% endblock %}
