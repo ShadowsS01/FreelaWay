@@ -63,7 +63,9 @@ DEBUG=True
 - Antes de ir para a proxima etapa, é necessário fazer uma alteração no `settings.py` na pasta do projeto `freelaway`.
 - Entre na pasta do projeto, vá até o final do arquivo `settings.py`, comente ou remova as linhas da AWS. Estas são as últimas linhas após o comentário `#AWS`
 
-### 7. Agora precisamos fazer as migrações para o banco de dados, só rodar no terminal
+### 7. Migações no Banco Dados
+
+Agora precisamos fazer as migrações para o banco de dados, só rodar no terminal:
 
 ```bash
 python manage.py migrate
