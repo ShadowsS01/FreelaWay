@@ -95,10 +95,10 @@ Perfil - {{user.username}} | FreelaWay
 
     {% for job in jobs %}
     {% if job.status == "C"%}
-    <div class="modal fade font-medium" id="modal-job-{{job.id}}" tabindex="-1" role="dialog"
+    <div class="modal fade font-medium backdrop-blur-sm" id="modal-job-{{job.id}}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content dark:bg-zinc-900">
+            <div class="modal-content bg-white/80 dark:bg-blue-600/10">
                 <div class="modal-header">
                     <h5 style="font-size: 30px" class="modal-title titulo" id="exampleModalLabel">JOB:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -128,14 +128,12 @@ Perfil - {{user.username}} | FreelaWay
                     </div>
 
                     <hr class="border-yellow-600 mb-2">
-                    <form action="{% url 'enviar_projeto' %}" method="POST" enctype="multipart/form-data">{% csrf_token
-                        %}
-
+                    <form action="{% url 'enviar_projeto' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                         <label for="single"
                             class="px-3 sm:px-5 py-2 rounded-lg font-medium text-black bg-blue-300/50 
-                        hover:bg-blue-300 dark:text-white/75 dark:hover:text-white dark:bg-black/50 dark:hover:bg-black 
+                        hover:bg-blue-300 dark:text-white dark:hover:text-white/75 dark:bg-black dark:hover:bg-black/50
                         selection:bg-blue-700/20 dark:selection:bg-blue-600/10 selection:text-blue-900 
-                        dark:selection:text-blue-600 duration-700 cursor-pointer border-blue-900/30 hover:border-blue-900">
+                        dark:selection:text-blue-600 duration-700 cursor-pointer border-2 border-blue-900/30 hover:border-blue-900">
                             Enviar arquivo final
                         </label>
                         <input type="file" class="form-control hidden" style="position: absolute;"
@@ -144,9 +142,7 @@ Perfil - {{user.username}} | FreelaWay
                         <input type="hidden" name="id" value={{job.id}}>
                         <br>
                         <input type="submit" value="Enviar" class="btn btn-success btn-lg mt-2 text-green-600">
-
                     </form>
-
                 </div>
 
             </div>
