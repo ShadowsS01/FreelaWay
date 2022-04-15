@@ -22,22 +22,30 @@ Perfil - {{user.username}} | FreelaWay
     </div>
     {% endfor %}
     {% endif %}
-    <div style="width: 60%">
+    <div class="font-medium flex flex-col lg:w-1/2 md:w-2/3 sm:w-3/4">
         <form action="{% url 'perfil' %}" method="POST">{% csrf_token %}
-            <p>Username:</p>
-            <input type="text" class="form-control" value="{{user.username}}" name="username">
-            <br>
-            <p>Email:</p>
-            <input type="email" class="form-control" value="{{user.email}}" name="email">
-            <br>
-            <p>Primeiro nome:</p>
-            <input type="text" class="form-control" value="{{user.first_name}}" name="primeiro_nome">
-            <br>
-            <p>Último nome:</p>
-            <input type="text" class="form-control" value="{{user.last_name}}" name="ultimo_nome">
-            <br>
-            <input type="submit" class="btn btn-success btn-lg text-green-600" value="Salvar alterações">
-            <a href="{% url 'password_reset' %}" class="btn btn-primary btn-lg">Redefinir senha</a>
+            <div>
+                <p>Username:</p>
+                <input type="text" class="form-control font-medium" value="{{user.username}}" name="username">
+            </div>
+            <div class="mt-8">
+                <p>Email:</p>
+                <input type="email" class="form-control font-medium" value="{{user.email}}" name="email">
+            </div>
+            <div class="mt-8">
+                <p>Primeiro nome:</p>
+                <input type="text" class="form-control font-medium" value="{{user.first_name}}" name="primeiro_nome">
+            </div>
+            <div class="mt-8">
+                <p>Último nome:</p>
+                <input type="text" class="form-control font-medium" value="{{user.last_name}}" name="ultimo_nome">
+            </div>
+            <div class="mt-1">
+                <a href="{% url 'password_reset' %}" class="w-fit">Redefinir senha</a>
+            </div>
+            <div class="flex flex-col flex-wrap mt-3">
+                <input type="submit" class="btn btn-success btn-lg text-green-600 w-fit" value="Salvar alterações">
+            </div>
         </form>
     </div>
     <br>
@@ -45,43 +53,45 @@ Perfil - {{user.username}} | FreelaWay
     <br>
     <h4 class="titulo">Histórico</h4>
 
-    <table class="table table-striped dark:text-white dark:bg-black/50">
-        <thead>
-            <tr>
-                <th scope="col">Imagem</th>
-                <th scope="col">Título</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for job in jobs %}
-            <tr>
-                <th scope="row"><img width="100px" src="{{job.referencias.all.0}}"></th>
-                <td>{{job.titulo}}</td>
-                <td>
-                    {% if job.categoria == 'D'%}
-                    Design
-                    {% else %}
-                    Edição de vídeo
-                    {% endif%}
-                </td>
-                <td>{{job.descricao}}</td>
-                <td>
-                    {% if job.status == 'AA'%}
-                    <span class="badge badge-info">Aguardando aprovação</span>
-                    {% elif job.status == 'C' %}
-                    <button class="badge badge-primary" data-toggle="modal" data-target="#modal-job-{{job.id}}">Em
-                        criação</button>
-                    {% else %}
-                    <span class="badge badge-success">Finalizado</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="max-w-[500px] sm:max-w-full overflow-x-auto">
+        <table class="table table-striped dark:text-white dark:bg-black/50">
+            <thead>
+                <tr>
+                    <th scope="col">Imagem</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <th scope="row"><img width="100px" src="{{job.referencias.all.0}}"></th>
+                    <td>{{job.titulo}}</td>
+                    <td>
+                        {% if job.categoria == 'D'%}
+                        Design
+                        {% else %}
+                        Edição de vídeo
+                        {% endif%}
+                    </td>
+                    <td>{{job.descricao}}</td>
+                    <td>
+                        {% if job.status == 'AA'%}
+                        <span class="badge badge-info">Aguardando aprovação</span>
+                        {% elif job.status == 'C' %}
+                        <button class="badge badge-primary" data-toggle="modal" data-target="#modal-job-{{job.id}}">Em
+                            criação</button>
+                        {% else %}
+                        <span class="badge badge-success">Finalizado</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     {% for job in jobs %}
     {% if job.status == "C"%}
@@ -118,9 +128,11 @@ Perfil - {{user.username}} | FreelaWay
                     </div>
 
                     <hr class="border-yellow-600 mb-2">
-                    <form action="{% url 'enviar_projeto' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <form action="{% url 'enviar_projeto' %}" method="POST" enctype="multipart/form-data">{% csrf_token
+                        %}
 
-                        <label for="single" class="px-3 sm:px-5 py-2 rounded-lg font-medium text-black bg-blue-300/50 
+                        <label for="single"
+                            class="px-3 sm:px-5 py-2 rounded-lg font-medium text-black bg-blue-300/50 
                         hover:bg-blue-300 dark:text-white/75 dark:hover:text-white dark:bg-black/50 dark:hover:bg-black 
                         selection:bg-blue-700/20 dark:selection:bg-blue-600/10 selection:text-blue-900 
                         dark:selection:text-blue-600 duration-700 cursor-pointer border-blue-900/30 hover:border-blue-900">

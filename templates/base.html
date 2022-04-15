@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,21 +37,34 @@
                 window.matchMedia("(prefers-color-scheme: dark)").matches)
         ) {
             document.documentElement.classList.add("dark");
+            setTimeout(
+                () => (document.getElementById("Icons-Dynamic").innerText = "light_mode"),
+                1
+            );
         } else {
             document.documentElement.classList.remove("dark");
+            setTimeout(
+                () =>
+                    (document.getElementById("Icons-Dynamic").innerText = "nightlight_round"),
+                1
+            );
         }
 
         function ThemeToggle() {
-            if (localStorage.theme === "dark" || (!("theme" in localStorage) &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            if (
+                localStorage.theme === "dark" ||
+                (!("theme" in localStorage) &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
                 document.documentElement.classList.remove("dark");
                 localStorage.theme = "light";
+                document.getElementById("Icons-Dynamic").innerText = "nightlight_round";
             } else if (localStorage.theme === "light" || !("theme" in localStorage)) {
                 document.documentElement.classList.add("dark");
                 localStorage.theme = "dark";
+                document.getElementById("Icons-Dynamic").innerText = "light_mode";
             }
         }
-
     </script>
     {% block 'head' %}
 
@@ -93,23 +107,30 @@
                     class="w-12 h-12 rounded-full cursor-pointer hover:opacity-75 dark:hover:opacity-50 duration-300">
             </a>
         </div>
-        <nav class="flex content-center items-center place-content-center space-x-2">
-            <button onClick="ThemeToggle()" id="themeToggle" class="flex items-center justify-center text-white bg-blue-600 px-2 py-2 rounded-md hover:ring 
-        hover:ring-blue-600/50 focus:ring-blue-700 dark:focus:ring-white/50 duration-500">
-                Alternar Tema
-            </button>
+        <nav class="flex content-center items-center place-content-center space-x-1">
             {% if user.is_authenticated %}
-            <div class="font-medium flex items-center jjustify-center space-x-2">
-                <a class="text-blue-600 duration-300 px-2 hover:no-underline 
-                    py-2 rounded-md bg-black/20 dark:bg-black/50 hover:bg-black/40" href="{% url 'perfil' %}">
-                    Perfil
-                </a>
-                <a href="{% url 'sair' %}" class="text-red-600 hover:text-red-700 duration-300 px-2 hover:no-underline 
-                py-2 rounded-md bg-black/20 dark:bg-black/50 hover:bg-black/40">
-                    Sair
-                </a>
+            <button type="button"
+                class="flex items-center justify-center px-2 py-2 rounded-md bg-black/20 dark:bg-black/50 hover:bg-black/40 dark:hover:bg-black focus:ring-2 focus:ring-blue-700 duration-300"
+                data-toggle="dropdown" data-target="#dropdown">
+                <span class="material-icons self-center items-center">
+                    account_circle
+                </span>
+            </button>
+            <div class="btn-group">
+                <div class="mt-6 -ml-40 absolute">
+                    <ul class="dropdown-menu" id="dropdown">
+                        <li><a class="dropdown-item font-medium hover:bg-blue-600/20 hover:text-blue-600 duration-300"
+                                href="{% url 'perfil' %}">Perfil</a></li>
+                        <li><a class="dropdown-item font-medium hover:bg-red-600/20 hover:text-red-600 duration-300"
+                                href="{% url 'sair' %}">Sair</a></li>
+                    </ul>
+                </div>
             </div>
             {% endif %}
+            <button onClick="ThemeToggle()" id="themeToggle" class="flex items-center justify-center text-white bg-blue-600 px-2 py-2 rounded-md hover:ring 
+        hover:ring-blue-600/50 focus:ring-blue-700 dark:focus:ring-white/50 duration-500">
+                <span class="material-icons" id="Icons-Dynamic"></span>
+            </button>
         </nav>
     </header>
 

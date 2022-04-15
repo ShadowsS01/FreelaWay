@@ -13,10 +13,62 @@ Encontrar Jobs | FreelaWay
 
 {% block 'body' %}
 
-<div class="mx-16 -mt-[50px]">
+<div class="mx-6 sm:mx-14 md:mx-16 -mt-[50px]">
     <br>
     <br>
-    <form action="{% url 'encontrar_jobs' %}" method="GET" class="grid grid-cols-3 gap-4">{% csrf_token %}
+    <div class="flex md:hidden">
+        <button data-toggle="modal" data-target="#modal-filtrar" class="font-medium px-2 py-1.5 rounded-lg border-2 border-green-600 text-green-600 hover:text-white hover:bg-green-600
+        duration-300">
+            Filtrar os Job's
+        </button>
+    </div>
+    <div class="modal fade backdrop-blur-sm" id="modal-filtrar" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content font-medium bg-white/50 dark:bg-blue-600/10">
+                <div class="modal-header">
+                    <h5 class="modal-title job-modal-titulo" id="exampleModalLabel">Filtrar os Job's</h5>
+                    <button type="button" class="close text-black dark:text-white" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form action="{% url 'encontrar_jobs' %}" method="GET" class="flex flex-col transition-all">{% csrf_token %}
+                            <div class="flex flex-col space-y-2 mb-4">
+                                <input type="text"
+                                    class="form-control dark:bg-zinc-900 dark:text-white dark:placeholder:text-slate-400 font-medium"
+                                    placeholder="Preço mínimo" name="preco_minimo">
+                                <input type="text"
+                                    class="form-control dark:bg-zinc-900 dark:text-white dark:placeholder:text-slate-400 font-medium"
+                                    placeholder="Preço máximo" name="preco_maximo">
+                            </div>
+
+                            <div class="flex flex-col space-y-2 mb-4">
+                                <input type="date" class="form-control dark:bg-zinc-900 dark:text-white font-medium"
+                                    name="prazo_minimo" placeholder="Prazo mínimo">
+                                <input type="date" class="form-control dark:bg-zinc-900 dark:text-white font-medium"
+                                    name="prazo_maximo" placeholder="Prazo máximo">
+                            </div>
+
+                            <div class="flex flex-col space-y-2 mb-2">
+                                <select class="form-control dark:bg-zinc-900 dark:text-white font-medium"
+                                    name="categoria">
+                                    <option value="D">Design</option>
+                                    <option value="EV">Edição de vídeo</option>
+                                </select>
+                                <input type="submit" value="FILTRAR"
+                                    class="font-medium px-2 py-1.5 rounded-lg bg-green-600/80 hover:bg-green-600 duration-300">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{% url 'encontrar_jobs' %}" method="GET"
+        class="md:grid md:grid-cols-3 md:gap-4 hidden transition-all">{% csrf_token %}
         <div>
             <input type="text" class="form-control" placeholder="Preço mínimo" name="preco_minimo">
             <br>
@@ -35,26 +87,31 @@ Encontrar Jobs | FreelaWay
                 <option value="EV">Edição de vídeo</option>
             </select>
             <br>
-            <input type="submit" class="btn btn-success btn-lg text-green-600" value="FILTRAR">
+            <input type="submit" value="FILTRAR" class="px-2 py-1.5 rounded-lg border-2 border-green-600 text-green-600 hover:text-white hover:bg-green-600
+                duration-300">
         </div>
     </form>
     <br>
     <br>
-    <h2 class="titulo">JOB’S EM ABERTO:</h2>
-    <div class="grid grid-cols-2 grid-flow-row gap-x-8">
+    <h2
+        class="inline font-bold text-3xl sm:text-5xl bg-gradient-to-r from-yellow-500 to-pink-500 bg-clip-text text-transparent">
+        JOB’S EM ABERTO:
+    </h2>
+    <div class="md:grid md:grid-cols-2 md:gap-4">
         {% for job in jobs %}
         <div class="flex justify-center items-center mt-10">
-            <div class="card-job">
-                <div class="header-job">
-                    <h4 class="titulo-job">{{job.titulo}}</h4>
+            <div
+                class="md:min-h-[300px] lg:min-h-fit w-full font-medium bg-gray-800/30 dark:bg-blue-600/10 shadow-xl shadow-black/30 rounded-lg">
+                <div class="w-full py-1 pl-3 tracking-wide text-yellow-500 rounded bg-gray-800 dark:bg-blue-600/20">
+                    <h4 class="font-bold mt-2">{{job.titulo}}</h4>
                 </div>
-                <div class="body-job">
+                <div class="px-3">
                     <p class="titulo-body">Descrição:</p>
                     <div style="width: 70%">
                         <p>{{job.descricao}}</p>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-6">
+                    <div class="flex flex-wrap justify-between mb-6">
                         <div class="">
                             <p class="titulo-body">Preço:</p>
                             <p>{{job.preco}}</p>
@@ -84,75 +141,51 @@ Encontrar Jobs | FreelaWay
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="modal-{{job.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade backdrop-blur-sm" id="modal-{{job.id}}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div style="background-color: #333;" class="modal-content">
+                <div class="modal-content font-medium bg-white/50 dark:bg-blue-600/10">
                     <div class="modal-header">
                         <h5 class="modal-title job-modal-titulo" id="exampleModalLabel">JOB:</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close text-black dark:text-white" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <h4 class="titulo-job">{{job.titulo}}</h4>
-
-                            <h6 class="titulo-body">Descrição:</h6>
-
+                            <h4 class="font-bold text-yellow-500 mt-2">{{job.titulo}}</h4>
+                            <h6 class="mt-4 text-pink-600">Descrição:</h6>
                             <p>{{job.descricao}}</p>
-
                             <div class="row">
-
                                 <div class="col-4">
-
-                                    <h6 class="titulo-body">Preço:</h6>
-
+                                    <h6 class="mt-4 text-pink-600">Preço:</h6>
                                     <p>{{job.preco}}</p>
-
                                 </div>
-
                                 <div class="col-4">
-
-                                    <h6 class="titulo-body">Prazo:</h6>
-
+                                    <h6 class="mt-4 text-pink-600">Prazo:</h6>
                                     <p>{{job.prazo_entrega}}</p>
-
                                 </div>
-
                                 <div class="col-4">
-
-                                    <h6 class="titulo-body">Categoria:</h6>
-
+                                    <h6 class="mt-4 text-pink-600">Categoria:</h6>
                                     <p>{% if job.categoria == 'D'%}
                                         Design
                                         {% else %}
                                         Edição de vídeo
                                         {% endif%}
                                     </p>
-
                                 </div>
-
-
-
                             </div>
 
-                            <h4 style="display:inline;" class="job-modal-titulo">Referencias:</h4>
+                            <h4 class="job-modal-titulo mt-4 -mb-8">Referencias:</h4>
                             <br>
                             <br>
-                            <div class="row">
-
+                            <div class="grid grid-cols-3 gap-4">
                                 {% for referencia in job.referencias.all %}
-                                <div class="col-4">
-                                    <img src="{{referencia}}" width="100%">
-
-
+                                <div class="w-full h-full">
+                                    <img src="{{referencia}}">
                                 </div>
                                 {% endfor %}
-
-
-
                             </div>
                             <br>
                             <br>
@@ -164,7 +197,6 @@ Encontrar Jobs | FreelaWay
                 </div>
             </div>
         </div>
-
         {% endfor %}
     </div>
 </div>
