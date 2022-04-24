@@ -99,6 +99,10 @@ Apartir daí crie um usuário e entre na home do site fazendo o login.**
 
 O deploy da aplicação foi feito no [Heroku](https://devcenter.heroku.com/).
 
+## Créditos
+
+> Projeto criado e desenvolvido no evento online e gratuito PystackWeek 3.0 da [Pythonando](https://github.com/Pythonando)
+
 ## Licença
 
 Este projeto esta sobe a licença [MIT](LICENSE)
