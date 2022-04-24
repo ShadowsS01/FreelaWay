@@ -62,6 +62,7 @@ DEBUG=True
 
 - Antes de ir para a proxima etapa, é necessário fazer uma alteração no `settings.py` na pasta do projeto `freelaway`.
 - Entre na pasta do projeto, vá até o final do arquivo `settings.py`, comente ou remova as linhas da AWS. Estas são as últimas linhas após o comentário `#AWS`
+- Usei o [AWS](https://aws.amazon.com/) somente para carregar as imagens ao fazer [deploy](#deploy) no [heroku](https://devcenter.heroku.com/). Por isso não é necessário no desenvolvimento, mas se quiser usar, coloque no `.env` as informações do seu [AWS](https://aws.amazon.com/).
 
 ### 7. Migações no Banco Dados
 
