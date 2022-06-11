@@ -1,6 +1,6 @@
 # FreelaWay
 
-[![licence mit](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+[![license mit](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
 > Um projeto usando o Framework Django para desenvolver uma aplicação web.
 
